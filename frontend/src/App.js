@@ -7,10 +7,13 @@ import Profile from './components/Profile/Profile';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import WithAuth from './components/WithAuth/WithAuth';
+import AllUsers from './components/allusers/AllUsers';
+import Followers from './components/Followers/Followers';
 function Auth() {
   const location = useLocation();
   const navigate = useNavigate();
-  if (localStorage.getItem('email') === 'admin' && localStorage.getItem('password') === 'admin') {
+  if (localStorage.getItem('token')) {
+    
     return (<Navigate to="/profile"></Navigate>)
   }
   else if (location.search === '?mode=login') {
@@ -19,12 +22,10 @@ function Auth() {
   else if (location.search === '?mode=signup') {
     return <SignUp></SignUp>
   }
-  else {
-    return (<div>Page not Valid </div>)
-  }
+
 }
 function Home() {
-  if (localStorage.getItem('email') === 'admin' && localStorage.getItem('password') === 'admin') {
+  if (localStorage.getItem('token') ){
     return (<Navigate to="/profile"></Navigate>)
   } else {
     return (<Navigate to="/login?mode=login"></Navigate>)
@@ -42,9 +43,12 @@ function App() {
         <Routes>
           <Route
             exact path="/login" element={<Auth></Auth>} ></Route>
-          <Route exact path="/profile" element={<WithAuth Component={Profile} />} ></Route>
+          <Route exact path="/profile" element={<Profile></Profile>} ></Route>
           <Route exact path="/" element={<Home />} ></Route>
           <Route exact path="*" element={<div>Page not found</div>} ></Route>
+          <Route exact path="/profile/allusers" element={<AllUsers></AllUsers>}></Route>
+          <Route exact path="/profile/followers" element={<Followers></Followers>}></Route>
+          
         </Routes>
       </div>
 

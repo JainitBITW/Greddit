@@ -15,7 +15,7 @@ app.use('/api', gredditRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
 .then(() => {
-    app.listen(4000, () => {
+    app.listen(4001, () => {
         console.log('connected to db & Server is running on port ', process.env.PORT);
     });
 }).catch((error) => { console.log(error) });

@@ -1,8 +1,12 @@
 import * as React from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import { Navigate, useNavigate } from 'react-router-dom';
+
 export default function SignUp() {
 
-
+  const navigate = useNavigate();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [confirmPassword, setConfirmPassword] = React.useState('');
@@ -30,8 +34,7 @@ export default function SignUp() {
       body: JSON.stringify(data)
     });
     const json = await response.json();
-    if ( response.ok)
-    {
+    if (response.ok) {
       setEmail('');
       setPassword('');
       setConfirmPassword('');
@@ -41,9 +44,15 @@ export default function SignUp() {
       setLastname('');
       setFirstname('');
       console.log("new user created");
+      toast.success("You are successfully registered. Now login with your credentials")
+
+      setTimeout(() => {
+        navigate("/login?mode=login");
+      }, 2000);
+
+
     }
-    else 
-    {
+    else {
       console.log(json.error);
     }
 
@@ -52,6 +61,17 @@ export default function SignUp() {
   return (
 
     <section className="vh-100" style={{ backgroundColor: '#eee' }}>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="container h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-lg-12 col-xl-11">
@@ -64,11 +84,11 @@ export default function SignUp() {
                       <div className="d-flex flex-row align-items-center mb-4">
                         <i className="fas fa-user fa-lg me-3 fa-fw" />
                         <div className=" flex-fill mb-0">
-                          <input value = {firstname} onChange={(e)=>setFirstname(e.target.value)} type="text" id="firstname" className="form-control" />
+                          <input value={firstname} onChange={(e) => setFirstname(e.target.value)} type="text" id="firstname" className="form-control" />
                           <label className="form-label" htmlFor="">First Name</label>
                         </div>
                         <div className=" flex-fill mb-0">
-                          <input value={lastname} onChange={(e)=>setLastname(e.target.value)} type="text" id="lastname" className="form-control" />
+                          <input value={lastname} onChange={(e) => setLastname(e.target.value)} type="text" id="lastname" className="form-control" />
                           <label className="form-label" htmlFor="">Last Name</label>
                         </div>
 
@@ -76,11 +96,11 @@ export default function SignUp() {
                       <div className="d-flex flex-row align-items-center mb-4">
                         <i className="fas fa-user fa-lg me-3 fa-fw" />
                         <div className=" flex-fill mb-0">
-                          <input value = {age} onChange={(e)=>setAge(e.target.value)} type="number" id="age" className="form-control" />
+                          <input value={age} onChange={(e) => setAge(e.target.value)} type="number" id="age" className="form-control" />
                           <label className="form-label" htmlFor="">Age</label>
                         </div>
                         <div className=" flex-fill mb-0">
-                          <input value={contactno} onChange={(e)=>setContactno(e.target.value)} type="text" id="contactno" className="form-control" />
+                          <input value={contactno} onChange={(e) => setContactno(e.target.value)} type="text" id="contactno" className="form-control" />
                           <label className="form-label" htmlFor="">Contact Number</label>
                         </div>
 
@@ -89,12 +109,12 @@ export default function SignUp() {
                       <div className="d-flex flex-row align-items-center mb-4">
                         <i className="fas fa-envelope fa-lg me-3 fa-fw" />
                         <div className=" flex-fill mb-0">
-                          <input value={email} onChange={(e)=>setEmail(e.target.value)} type="email" id="email" className="form-control" />
+                          <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" id="email" className="form-control" />
                           <label className="form-label" htmlFor="">Your Email</label>
 
                         </div>
                         <div className=" flex-fill mb-0">
-                          <input value={username} onChange={(e)=>setUsername(e.target.value)} type="email" id="username" className="form-control" />
+                          <input value={username} onChange={(e) => setUsername(e.target.value)} type="email" id="username" className="form-control" />
                           <label className="form-label" htmlFor="">Your Username</label>
 
                         </div>
@@ -102,14 +122,14 @@ export default function SignUp() {
                       <div className="d-flex flex-row align-items-center mb-4">
                         <i className="fas fa-lock fa-lg me-3 fa-fw" />
                         <div className=" flex-fill mb-0">
-                          <input value={password} onChange={(e)=>setPassword(e.target.value)} type="password" id="" className="form-control" />
+                          <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="" className="form-control" />
                           <label className="form-label" htmlFor="">Password</label>
                         </div>
                       </div>
                       <div className="d-flex flex-row align-items-center mb-4">
                         <i className="fas fa-key fa-lg me-3 fa-fw" />
                         <div className=" flex-fill mb-0">
-                          <input value={confirmPassword } onChange={(e)=>setConfirmPassword(e.target.value)} type="password" id='confirmpassword' className="form-control" />
+                          <input value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="password" id='confirmpassword' className="form-control" />
                           <label className="form-label" htmlFor=''>Repeat your password</label>
                         </div>
                       </div>

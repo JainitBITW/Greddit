@@ -1,68 +1,68 @@
 import React from 'react'
-
+import { ToastContainer, toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
 // import './Login.css'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 
 
 export default function Login() {
   let navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isloggedin, setisloggedin] = useState(false);
-  const Change = (e) => {
-    // console.log(email, password)
 
-    if (e.target.id === "LoginEmail") {
-      // console.log(e.target.value);
-      setEmail(e.target.value);
-    }
-    else if (e.target.id === "LoginPassword") {
-      // console.log(e.target.value);
-      setPassword(e.target.value);
-    }
 
-    if (e.target.value === '' ) {
-      {
-        setisloggedin(true);
-      }
-    }
-   else if (e.target.id === "LoginEmail" && password=== '') {
-      {
-        setisloggedin(true);
-      }
-    }
-    else if ( e.target.id === "LoginPassword" && email === '') {
-      {
-        setisloggedin(true);
-      }
+
+  const LoginAdmin = async (e) => {
+    e.preventDefault();
+    if (localStorage.getItem("token"))
+      return
+
+    const datatosend = { username, password }
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body:
+        JSON.stringify(datatosend)// body data type must match "Content-Type" header
+    })
+    let response = await res.json()
+    console.log(response)
+    if (response.error) {
+      toast.error(response.error)
     }
     else {
-      setisloggedin(false);
-    }
-    
-  }
+      console.log(response)
+      localStorage.setItem('token', response.token);
+      setUsername("")
+      setPassword("")
+      toast.success("You are Successfully logged in")
+      setTimeout(() => {
+          navigate("/profile");
+      }, 2000); 
 
-  const LoginAdmin = () => {
-    console.log(email, password)
-
-    if (email === 'admin' && password === 'admin') {
-      localStorage.setItem('email', email);
-      localStorage.setItem('password', password);
-      localStorage.setItem('isloggedin', true);
-      alert("Login Successfull");
-      navigate('/profile');
-    }
-    else {
-      alert("Login Failed Please Try Again with admin/admin");
     }
   }
 
 
   return (
     <div >
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <section className="vh-100" style={{ backgroundColor: '#508bfc' }}>
+
         <form>
           <div className="container py-5 h-100">
             <div className="row d-flex justify-content-center align-items-center h-100">
@@ -70,12 +70,12 @@ export default function Login() {
                 <div className="card shadow-2-strong" style={{ borderRadius: '1rem' }}>
                   <div className="card-body p-5 text-center">
                     <h3 className="mb-5">Sign in</h3>
-                    <div className="form-outline mb-4">
-                      <input onChange={Change} id="LoginEmail" value={email} type="text" className="form-control form-control-lg" />
-                      <label className="form-label" htmlFor="typeEmailX-2">Email</label>
+                    <div >
+                      <input onChange={(e) => setUsername(e.target.value)} id="LoginUsername" value={username} type="text" className="form-control form-control-lg" />
+                      <label className="form-label" htmlFor="typeusernameX-2">username</label>
                     </div>
-                    <div className="form-outline mb-4">
-                      <input id="LoginPassword" onChange={Change} value={password} type="password" className="form-control form-control-lg" />
+                    <div >
+                      <input id="LoginPassword" onChange={(e) => setPassword(e.target.value)} value={password} type="password" className="form-control form-control-lg" />
                       <label className="form-label" htmlFor="typePasswordX-2">Password</label>
                     </div>
                     {/* Checkbox */}

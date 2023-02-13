@@ -1,21 +1,17 @@
 import React from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useLayoutEffect } from 'react';
-function WithAuth({ Component }) {
+const WithAuth = (Component) => {
+    const AuthRoute = () => {
+        const isAuth = !!localStorage.getItem("token");
+        if (isAuth) {
+            return <Component />;
+        } else {
+            return <Navigate to="/login?mode=signup" />;
+        }
+    };
 
-    // let navigate = useNavigate();
-    let email = localStorage.getItem('email');
-    let password = localStorage.getItem('password');
-    if (email === 'admin' || password === 'admin') {
-
-        return <Component></Component>
-    }
-
-    else {
-        // navigate('/login?mode=login');
-        alert("Please Login First");
-        return <Navigate to="/login?mode=login"/>
-    }
+    return AuthRoute;
 }
 
 export default WithAuth;
