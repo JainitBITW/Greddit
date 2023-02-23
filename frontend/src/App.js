@@ -9,7 +9,16 @@ import { useLocation } from 'react-router-dom';
 import WithAuth from './components/WithAuth/WithAuth';
 import AllUsers from './components/allusers/AllUsers';
 import Followers from './components/Followers/Followers';
+import Following from './components/Followers/Following';
+import MySubgreddits from './components/MySubgreddits/MySubgreddits';
+import SubGredditPage from './components/SubGredditPage/SubGredditPage';
+import AllSubgreddits from './components/AllSubgreddit/AllSubgreddits';
+import SGFollowers from './components/SGfollowers/SGFollowers';
+import Pending from './components/Pending/Pending';
+import Report from './components/report/Report';
+import Reports from './components/Reports/Reports';
 function Auth() {
+
   const location = useLocation();
   const navigate = useNavigate();
   if (localStorage.getItem('token')) {
@@ -48,7 +57,14 @@ function App() {
           <Route exact path="*" element={<div>Page not found</div>} ></Route>
           <Route exact path="/profile/allusers" element={<AllUsers></AllUsers>}></Route>
           <Route exact path="/profile/followers" element={<Followers></Followers>}></Route>
-          
+          <Route exact path="/profile/following" element={<Following></Following>}></Route>
+          <Route exact path="/profile/mysubgreddits" element={<MySubgreddits></MySubgreddits>}></Route>
+          <Route exact path="/subgreddit/:subgredditname" element={<SubGredditPage></SubGredditPage>}></Route>
+          <Route exact path="/allsubgreddits" element={<AllSubgreddits></AllSubgreddits>}></Route>
+          <Route exact path="/followers/:sg"  element={<SGFollowers></SGFollowers>}></Route>
+          <Route exact path="/pending/:sg"  element={<Pending></Pending>}></Route>
+          <Route exact path="/report/:subgreddit/:id"  element={<Report></Report>}></Route>
+          <Route exact path="/reports/:subgreddit" element={<Reports></Reports>}></Route>
         </Routes>
       </div>
 

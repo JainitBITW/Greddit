@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link ,useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react';
+import { AiOutlineProfile,AiOutlineLogout,AiOutlineLogin,AiOutlineUnorderedList } from 'react-icons/ai';
+import{SiGnuprivacyguard} from 'react-icons/si'
 const NavBar = () => {
     const [user, setuser] = useState(false)
     const navigate = useNavigate();
@@ -42,15 +44,23 @@ const NavBar = () => {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
                        {user && <li className="nav-item"  >
-                            <Link className="nav-link"  to="/login?mode=login" onClick={LogIn} >Login</Link>
+                            <Link className="nav-link"  to="/login?mode=login" ><AiOutlineLogin/>Login </Link>
                         </li> }
-                        <li className="nav-item">
-                            <Link className="nav-link" role="button" to="/"  >Pricing</Link>
-                        </li>
+                        {user && <li className="nav-item"  >
+                            <Link className="nav-link"  to="/login?mode=signup" ><SiGnuprivacyguard/>Signup </Link>
+                        </li> }
+                        { (!user)&& <li className="nav-item">
+                            <Link className="nav-link" role="button" to="/profile"  ><AiOutlineProfile/> Profile</Link>
+                        </li>}
                        { (!user)&&  <li className="nav-item">
-                            <Link className="nav-link " onClick={LogOut} to='/login?mode=login' >Logout</Link>
+                            <Link className="nav-link " onClick={LogOut} to='/login?mode=login' ><AiOutlineLogout/>Logout</Link>
                         </li>
                         }
+                       
+                       { (!user)&&  <li className="nav-item">
+                            <Link className="nav-link" to="/allsubgreddits"><AiOutlineUnorderedList/>My SubGreddits</Link>
+                        </li>}
+                        
                     </ul>
                 </div>
             </div>

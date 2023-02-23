@@ -27,7 +27,7 @@ const Profile = () => {
       ...newdata,
       [e.target.name]: e.target.value
     })
-    console.log('saffdas' +userdata)
+    // console.log('saffdas' +userdata)
   }
   const updatepassword = (e) => {
     setpassword(e.target.value)
@@ -95,28 +95,28 @@ const Profile = () => {
                 <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#000', height: '200px' }}>
                   <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '150px' }}>
                     <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp" alt="Generic placeholder image" className="img-fluid img-thumbnail mt-4 mb-2" style={{ width: '150px', zIndex: 1 }} />
-                    <button type="button" style={{ zIndex: 1 }} onClick={() => seteditable(true)}>
-                      Edit profile
-                    </button>
-                    <button type="button" style={{ zIndex: 1 }} onClick={LogOut}>Logout </button>
-                    <button type="button" style={{ zIndex: 1 }} onClick={ShowAllUsers}>All Users  </button>
+                    
                   </div>
+
 
                 </div>
                 <div className="p-4 text-black" style={{ backgroundColor: '#f8f9fa' }}>
+                  
                   <div className="d-flex justify-content-end text-center py-1">
 
                     <div className="px-3">
-                      <Link to='followers' className="mb-1 h5">1026</Link>
+                      <Link to='followers' className="mb-1 h5">{userdata.numfollowers}</Link>
                       <p className="small text-muted mb-0">Followers</p>
                     </div>
                     <div>
-                      <Link to = 'following'className="mb-1 h5">478</Link>
+                      <Link to = 'following'className="mb-1 h5">{userdata.numfollowing}</Link>
                       <p className="small text-muted mb-0">Following</p>
                     </div>
                   </div>
                 </div>
+
                 <div className="card-body p-4 text-black">
+                  
                   <div className="mb-5">
                     <p className="lead fw-normal mb-1">About</p>
                     {!editable && <div className="px-2 py-2">FirstName: {userdata.firstname}</div>}
@@ -135,6 +135,10 @@ const Profile = () => {
                     </div>
                   
                   </div>
+<div>                 <button onClick={LogOut}>Log Out</button></div>
+ 
+                    <div><button onClick={ShowAllUsers}>Show All Users</button></div>
+                    <div>  <button onClick={() => seteditable(!editable)}>Edit Profile</button></div>
 
                 </div>
               </div>

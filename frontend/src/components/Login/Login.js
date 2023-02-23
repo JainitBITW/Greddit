@@ -50,17 +50,7 @@ export default function Login() {
 
   return (
     <div >
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={true}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+      <ToastContainer/>
       <section className="vh-100" style={{ backgroundColor: '#508bfc' }}>
 
         <form>
@@ -90,8 +80,10 @@ export default function Login() {
                         className="link-danger">SignUp</Link></p>
                     </div>
                     <hr className="my-4" />
-                    <button className="btn btn-lg btn-block btn-primary" style={{ backgroundColor: '#dd4b39' }} type="submit"><i className="fab fa-google me-2" /> Sign in with google</button>
-                    <button className="btn btn-lg btn-block btn-primary mb-2" style={{ backgroundColor: '#3b5998' }} type="submit"><i className="fab fa-facebook-f me-2" />Sign in with facebook</button>
+                    <button className="btn btn-lg btn-block btn-primary" onClick={()=>{toast.success("nahi daala hai bhai");
+                  navigate('/')}} style={{ backgroundColor: '#dd4b39' }} ><i className="fab fa-google me-2" /> Sign in with google</button>
+                    <button className="btn btn-lg btn-block btn-primary mb-2" onClick={()=>{toast.success("nahi daala hai bhai");
+                  navigate('/')}}  style={{ backgroundColor: '#3b5998' }} ><i className="fab fa-facebook-f me-2" />Sign in with facebook</button>
                   </div>
                 </div>
               </div>

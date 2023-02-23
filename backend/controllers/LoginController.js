@@ -20,7 +20,7 @@ const loginUser =
             else {
                 let token = jwt.sign({ id: tempuser[0]._id, firstname: tempuser[0].firstname, lastname: tempuser[0].lastname, username: tempuser[0].username, email: tempuser[0].email, contactno: tempuser[0].contactno, age: tempuser[0].age, numfollowers: tempuser[0].numfollowers, numfollowing: tempuser[0].numfollowing }, 'jwtsecret');
                 res.status(200).json({ success: true, token: token });
-                console.log(tempuser[0])
+                // console.log(tempuser[0])
             }
         }
     };

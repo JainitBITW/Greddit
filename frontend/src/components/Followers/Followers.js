@@ -30,11 +30,13 @@ export default function Followers() {
     }
     useEffect(() => {
         Getabcd();
+ 
 
     }, [])
 
-    const RemoveFollower = async (e) => {
-        e.preventDefault();
+    const RemoveFollower = async (remove) => {
+        // e.preventDefault();
+        console.log('sdfasdf')
         var token = localStorage.getItem("token")
         var currname = jwt(token).username
         let res = await fetch('/api/removefollower', {
@@ -44,11 +46,12 @@ export default function Followers() {
             },
             body: JSON.stringify({
                 currentUser: currname,
-                follower: e.target.value
+                follower: remove
             })
         })
         let data = await res.json()
-        if (data.status === 200) {
+        if (data.success) {
+            localStorage.setItem("token", data.token)
             toast.success("Follower Removed Successfully")
             Getabcd();
         }
@@ -57,17 +60,25 @@ export default function Followers() {
         }
     }
 
-
-
     return (
         <div>
+            <ToastContainer
+            position="top-right"
+            autoClose={1000}
+            hideProgressBar={true}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover />
             <div>
                 {followers.map((follow) => (
                     <div key={follow} >
                         <div className="card-body my-3 mx-5">
                             <h5 className="card-title">{follow}</h5>
                             <p className="card-text">{follow}</p>
-                            <button  className="btn btn-info">Restrict Follower</button>
+                            <button onClick={()=>RemoveFollower(follow)} className="btn btn-info">Restrict Follower</button>
                         </div>
                     </div>))}
             </div> 

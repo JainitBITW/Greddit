@@ -6,7 +6,7 @@ import jwt from 'jwt-decode'
 import { ToastContainer, toast } from 'react-toastify';
 
 
-function AllUsers() {
+function Following() {
     var token = localStorage.getItem("token")
     var currname = jwt(token).username
     const [users, setusers] = useState([])
@@ -14,7 +14,7 @@ function AllUsers() {
     const [followed, setfollowed] = useState([])
     const GetAllUsers = async () => {
         var token = localStorage.getItem("token")
-
+        
         console.log(currname)
         let res = await fetch('/api/allusers', {
             method: 'POST',
@@ -25,13 +25,10 @@ function AllUsers() {
         let x = await res.json()
         setusers(x.AllUsers)
     }
-    useEffect(() => {
-        GetAllUsers()
-        Getfollowings()
-    }, [])
-
+    
     const Getfollowings = async () => {
-
+        
+        
         let res = await fetch('/api/getfollowings', {
             method: 'POST',
             headers: {
@@ -43,42 +40,16 @@ function AllUsers() {
         })
         let x = await res.json()
         setfollowed(x.Following)
-       
+        
     }
-  
 
-    const FollowUser = async (usernameToFollow) => {
+    useEffect(() => {
+        GetAllUsers();
+        Getfollowings();
+    }, [])
+    
+    
 
-
-        let res = await fetch('/api/followuser', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                usernameToFollow: usernameToFollow,
-                currentUser: currname,
-                Following: followed
-
-            })
-        })
-        let x = await res.json()
-        console.log(x)
-        if (x.success) {
-            toast.success("Followed ", usernameToFollow)
-            
-            localStorage.setItem('token', x.token)
-            Getfollowings();
-
-            console.log(followed)
-
-           
-        }
-        else {
-            toast.error(x.error)
-        }
-
-    }
     const UnfollowUser = async (usernameToUnfollow) => {
         let res = await fetch('/api/unfollowuser', {
             method: 'POST',
@@ -96,18 +67,16 @@ function AllUsers() {
         let x = await res.json()
         console.log(x)
         if (x.success) {
-            var string  = 'Unfollowed '+usernameToUnfollow 
-            toast.success(string)
-            localStorage.setItem("token",x.token)
+            toast.success("unFollowed User")
+            localStorage.setItem("token", x.token)
             Getfollowings();
-console.log(followed)
-              
+            console.log(followed)
+
         }
         else {
             toast.error(x.error)
         }
     }
-
 
 
     return (<div>
@@ -122,16 +91,16 @@ console.log(followed)
             draggable
             pauseOnHover />
         {users.map((UserName) => (
-            <div key={UserName._id} style={{ display: (currname === UserName.username) ? 'none' : 'block' }} className=" my-3 card w-75">
+            <div key={UserName._id} style={{ display: followed.includes(UserName.username) ?'block' : 'none' }} className=" my-3 card w-75">
                 <div className="card-body my-3">
                     <h5 className="card-title">{UserName.username}</h5>
                     <p className="card-text">{UserName.username}</p>
-                    {(!(followed.includes(UserName.username))?<button onClick={() => {FollowUser(UserName.username); console.log(followed)}} className="btn btn-info">Follow</button> : (<button onClick={() => {UnfollowUser(UserName.username)}} className="btn btn-info">Unfollow</button>))}
-              
+                    <button onClick={() => UnfollowUser(UserName.username)} className="btn btn-primary">Unfollow</button>
+
                 </div>
             </div>
         ))}
     </div>)
 }
 
-export default AllUsers;
+export default Following;
