@@ -368,6 +368,7 @@ const GetMySubgreddits = async (req, res) => {
                 subGredditnumfollowers: subGreddit.subGredditFollowers.length,
                 subGredditnumposts: subGreddit.subGredditPosts.length,
                 subGredditnumPendingFollowers: subGreddit.subGredditPendingFollowers.length,
+                subGredditdate: subGreddit.subGredditCreatedDate,
 
             })
             console.log(subGreddit.subGredditPendingFollowers.length)
@@ -557,6 +558,7 @@ const ShowAllSubGreddits = async (req, res) => {
                 subGredditFollowers: followers,
                 subGredditPendingFollowers: pendingFollowers,
                 subGredditnumPendingFollowers: subGreddit.subGredditPendingFollowers.length,
+                subGredditdate: subGreddit.subGredditCreated,
                 
                 
             })

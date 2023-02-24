@@ -1,10 +1,7 @@
 import React from 'react'
-import WithAuth from '../WithAuth/WithAuth';
-import { Navigate, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import jwt from 'jwt-decode'
 import { ToastContainer, toast } from 'react-toastify';
-import { createRoot } from 'react-dom/client'
 export default function Followers() {
 
     const [followers, setFollowers] = useState([])
@@ -14,7 +11,7 @@ export default function Followers() {
         var currname = jwt(token).username
 
         console.log(currname)
-        let res = await fetch('/api/getfollowers', {
+        let res = await fetch('http://localhost:4000/api/getfollowers', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -39,7 +36,7 @@ export default function Followers() {
         console.log('sdfasdf')
         var token = localStorage.getItem("token")
         var currname = jwt(token).username
-        let res = await fetch('/api/removefollower', {
+        let res = await fetch('http://localhost:4000/api/removefollower', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

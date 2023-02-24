@@ -48,7 +48,7 @@ const Profile = () => {
 
     if (editable && !(userdata === newdata)) {
       
-      let res = await fetch('/api/editprofile', {
+      let res = await fetch('http://localhost:4000/api/editprofile', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

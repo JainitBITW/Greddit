@@ -41,6 +41,7 @@ const subGredditSchema = new Schema({
     subGredditBlockedUsers: {
         type: [],sparse: true
     },
+    subGredditCreated: { type: Date, default: Date.now },
 
 
 });

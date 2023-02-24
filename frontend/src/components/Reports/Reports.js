@@ -71,7 +71,7 @@ const IgnoreReport = async(e) => {
 }
 const DeletePost = async(e) => {
     e.preventDefault();
-    let res = await fetch('http://localhost:4001/api/deletepost', {
+    let res = await fetch('http://localhost:4000/api/deletepost', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

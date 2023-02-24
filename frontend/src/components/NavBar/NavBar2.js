@@ -16,7 +16,7 @@ const NavBar2 = () => {
     const [checker, setchecker] = useState(false)
     useEffect(() => {
         const G = async () => {
-            const res = await fetch('/api/getsubgredditpage', {
+            const res = await fetch('http://localhost:4000/api/getsubgredditpage', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

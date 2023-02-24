@@ -10,6 +10,7 @@ const report = new Schema({
     reportedSubGreddit: String,
     reportIgnore: { type: Boolean, default: false },
     reportUser: String,
+    reportCreated: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model('Report', report);

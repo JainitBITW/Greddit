@@ -1,14 +1,12 @@
-FROM node:16
 
-# Install Dependencies
+FROM node:16 as build-stage
+
 COPY package*.json ./
 
-RUN npm install --silent
+RUN npm install
 
-# Copy app source code
 COPY . .
 
 EXPOSE 3000
-# Exports
 
-CMD ["npm","start"]
+CMD ["npm", "start"]

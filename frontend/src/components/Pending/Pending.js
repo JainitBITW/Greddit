@@ -9,7 +9,7 @@ export default function Pending() {
     const params = useParams();
     const [followers, setfollowers] = useState([])
     const GPFollowers = async () => {
-        const res = await fetch('/api/getpending', {
+        const res = await fetch('http://localhost:4000/api/getpending', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export default function Pending() {
 const APending = async (e) => {
     e.preventDefault();
     var currname = e.target.id
-    let res = await fetch('/api/acceptpending', {
+    let res = await fetch('http://localhost:4000/api/acceptpending', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ const APending = async (e) => {
 const DPending = async (e) => {
     e.preventDefault();
     var currname = e.target.id
-    let res = await fetch('/api/delpending', {
+    let res = await fetch('http://localhost:4000/api/delpending', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

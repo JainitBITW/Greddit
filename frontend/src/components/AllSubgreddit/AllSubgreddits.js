@@ -1,22 +1,74 @@
 import React from 'react'
-import WithAuth from '../WithAuth/WithAuth';
-import { Navigate, useNavigate,Link } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import jwt from 'jwt-decode'
 import { ToastContainer, toast } from 'react-toastify';
-import { createRoot } from 'react-dom/client'
-import MySubgreddits from '../MySubgreddits/MySubgreddits';
 import NavBar from '../NavBar/NavBar';
 const  AllSubgreddits=() =>{
     const navigate = useNavigate();
     const [allSubgreddits, setallSubgreddits] = useState()
+    const [sortorder, setsortorder] = useState("alpha");
+   const sortalpha = (a, b) => {
+        if (a.subGredditName < b.subGredditName) {
+            return -1;
+        }
+        if (a.subGredditName > b.subGredditName) {
+            return 1;
+        } 
+        return 0;
+    }
+   
+    const sortfollowers = (a, b) => {
 
+        if (a.subGredditnumfollowers > b.subGredditnumfollowers) {
+            return -1;
+        }
+        if (a.subGredditnumfollowers < b.subGredditnumfollowers) {  
+            return 1;
+        }
+        return 0;
+    }
+    const sortdate = (a, b) => {
+     
+        if (a.subGredditdate > b.subGredditdate) {
+            return -1;
+        }
+        if (a.subGredditdate < b.subGredditdate) {
+            return 1;
+        }
+        return 0;
+    }
+    const handlesort = (sub) => {
+
+      if (sortorder === "alpha") {
+        return sub.sort(sortalpha);
+      }
+      else if (sortorder === "followers") {
+        return sub.sort(sortfollowers);
+      }
+      else if (sortorder === "date") {
+        console.log(sortorder)
+        return sub.sort(sortdate)
+      }
+      else
+        return sub;
+    }
+
+    const handlesortval = (e) => {
+      setsortorder(e.target.value);
+      GetSubgreddits()
+      handlesort(allSubgreddits)
+      
+    }
+
+    
+    
     const GetSubgreddits = async () => {
         var token = localStorage.getItem('token')
         var UserName = jwt(token).username
         
 
-        let res = await fetch('/api/allsubgreddits', {
+        let res = await fetch('http://localhost:4000/api/allsubgreddits', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -48,7 +100,7 @@ const FollowSG = async (e) => {
     var token = localStorage.getItem('token')
     var UserName = jwt(token).username
     var subGredditName = e.target.id
-    const res = await fetch('/api/followsubgreddit', {
+    const res = await fetch('http://localhost:4000/api/followsubgreddit', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -72,7 +124,7 @@ const FollowSG = async (e) => {
     }
 }
 const deleteSubGreddit = async (subGredditId) => {
-  const res = await fetch('/api/deletesubgreddit', {
+  const res = await fetch('http://localhost:4000/api/deletesubgreddit', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
@@ -97,7 +149,7 @@ const BlockFollower = async (e) => {
     var token = localStorage.getItem("token")
     var decoded = jwt(token)
     var currname = decoded.username
-    let res = await fetch('/api/blockfollower', {
+    let res = await fetch('http://localhost:4000/api/blockfollower', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -134,8 +186,13 @@ toast.error(data.error)
             pauseOnFocusLoss
             draggable
             pauseOnHover />
+            <select id="countries" onChange={handlesortval} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-10 w-4/12">
+            <option value="alpha" selected>Alphabetically </option>
+            <option value="followers">Number Followers </option>
+            <option value="date">Creation Date</option>
+          </select>
             
-        { allSubgreddits&& allSubgreddits.map((subGreddit) => (
+        { allSubgreddits&& handlesort(allSubgreddits).map((subGreddit) => (
             <div>
            <div key={subGreddit.subGredditName} className=" my-3 card w-75">
          <div className="card-body my-3">
@@ -166,7 +223,7 @@ toast.error(data.error)
                       ( <div className='py-2'> <button id={subGreddit.subGredditName} onClick={FollowSG} className="btn btn-info mx-2">Join</button></div>)
                     }
     {
-                        (subGreddit.subGredditFollowers.includes(jwt(localStorage.getItem('token')).username)) && (<div className='py-2'> <button id={subGreddit.subGredditName} onClick={BlockFollower} className="btn btn-danger mx-2">Leave</button></div>)
+                        (subGreddit.subGredditFollowers.includes(jwt(localStorage.getItem('token')).username))&& (!subGreddit.subGredditCreator) && (<div className='py-2'> <button id={subGreddit.subGredditName} onClick={BlockFollower} className="btn btn-danger mx-2">Leave</button></div>)
                     }
                 
                  </div>

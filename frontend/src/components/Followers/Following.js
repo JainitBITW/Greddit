@@ -1,6 +1,4 @@
 import React from 'react'
-import WithAuth from '../WithAuth/WithAuth';
-import { Navigate, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import jwt from 'jwt-decode'
 import { ToastContainer, toast } from 'react-toastify';
@@ -16,7 +14,7 @@ function Following() {
         var token = localStorage.getItem("token")
         
         console.log(currname)
-        let res = await fetch('/api/allusers', {
+        let res = await fetch('http://localhost:4000/api/allusers', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -29,7 +27,7 @@ function Following() {
     const Getfollowings = async () => {
         
         
-        let res = await fetch('/api/getfollowings', {
+        let res = await fetch('http://localhost:4000/api/getfollowings', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -51,7 +49,7 @@ function Following() {
     
 
     const UnfollowUser = async (usernameToUnfollow) => {
-        let res = await fetch('/api/unfollowuser', {
+        let res = await fetch('http://localhost:4000/api/unfollowuser', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

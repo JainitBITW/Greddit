@@ -13,7 +13,7 @@ const SavedPosts = () => {
     const GetPosts = async () => {
         var token = localStorage.getItem('token')
         var UserName = jwt(token).username
-        const res = await fetch('/api/getsavedposts', {
+        const res = await fetch('http://localhost:4000/api/getsavedposts', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ const RemoveSaved = async (e) => {
     var token = localStorage.getItem('token')
     var UserName = jwt(token).username
     var postID = e.target.id
-    const res = await fetch('/api/removesavedpost', {
+    const res = await fetch('http://localhost:4000/api/removesavedpost', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

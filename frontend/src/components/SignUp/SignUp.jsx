@@ -27,7 +27,7 @@ export default function SignUp() {
       age: age,
       password: password
     };
-    const response = await fetch('/api/signup', {
+    const response = await fetch('http://localhost:4000/api/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

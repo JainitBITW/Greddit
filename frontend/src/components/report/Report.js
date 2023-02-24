@@ -16,7 +16,7 @@ const CreateReport = async (e) => {
     // e.preventDefault()
     var token = localStorage.getItem('token')
     var  reportedBy = jwt(token).username
-    const res = await fetch('/api/report', {
+    const res = await fetch('http://localhost:4000/api/report', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

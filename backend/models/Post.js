@@ -10,6 +10,12 @@ const post = new Schema({
     postUpvotes: {  type: [], sparse: true },
     postDownvotes: {  type: [], sparse: true },
     postReports: {  type: [], sparse: true },
+    postCreated: { type: Date, default: Date.now },
+    postComments: {  type: [{
+        user: String,
+        comment: String,
+    }], sparse: true },
+
 
 });
 

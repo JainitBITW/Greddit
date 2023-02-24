@@ -13,7 +13,7 @@ export default function SGFollowers() {
   console.log(params.subgreddit)
   const[followers,setfollowers] = useState([])
   const GetFollowers = async () => {
-    const res = await fetch('/api/sg/getfollowers', {
+    const res = await fetch('http://localhost:4000/api/sg/getfollowers', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export default function SGFollowers() {
     var token = localStorage.getItem("token")
     var decoded = jwt(token)
     var username = decoded.username
-    let res = await fetch('/api/blockfollower', {
+    let res = await fetch('http://localhost:4000/api/blockfollower', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ toast.error(data.error)
     var username = decoded.username
     e.preventDefault();
     var currname = e.target.id
-    let res = await fetch('/api/unblockfollower', {
+    let res = await fetch('http://localhost:4000/api/unblockfollower', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
