@@ -5,6 +5,8 @@ import 'react-toastify/dist/ReactToastify.css';
 // import './Login.css'
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useState } from 'react';
+import NavBar from '../NavBar/NavBar';
+
 
 
 export default function Login() {
@@ -50,6 +52,7 @@ export default function Login() {
 
   return (
     <div >
+      <NavBar/>
       <ToastContainer/>
       <section className="vh-100" style={{ backgroundColor: '#508bfc' }}>
 

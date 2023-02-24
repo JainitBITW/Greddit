@@ -15,7 +15,7 @@ export default function Pending() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                subGredditName: params.sg,
+                subGredditName: params.subgreddit,
             })
         })
         const data = await res.json()
@@ -41,7 +41,7 @@ const APending = async (e) => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            subGredditName: params.sg,
+            subGredditName: params.subgreddit,
             username: currname
         })
     })
@@ -67,7 +67,7 @@ const DPending = async (e) => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            subGredditName: params.sg,
+            subGredditName: params.subgreddit,
             username: currname
         })
     })

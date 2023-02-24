@@ -4,6 +4,7 @@ import { Navigate, useNavigate, Link  } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import jwt from 'jwt-decode'
 import { ToastContainer, toast } from 'react-toastify';
+import NavBar from '../NavBar/NavBar';
 
 
 
@@ -75,6 +76,7 @@ const Profile = () => {
   return (
 
     <div>
+      <NavBar/>
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -128,16 +130,15 @@ const Profile = () => {
                     {!editable && <div className="px-2 py-2">KontactNuber : {userdata.contactno}</div>}
                     {editable && <><label>cnumber</label> <input onChange={updateData} type='text' name='contactno' className="px-2 py-2" placeholder={userdata.contactno} /></>}
                     {!editable && <div className="px-2 py-2"> userName : {userdata.username}</div>}
-                    {editable && <><label>userName</label> <input onChange={updateData} type='text' name='username' className="px-2 py-2" placeholder={userdata.username} /></>}
+                    {/* {editable && <><label>userName</label> <input onChange={updateData} type='text' name='username' className="px-2 py-2" placeholder={userdata.username} /></>} */}
                     {editable && <><label> Password</label><input onChange={updatepassword} type='password' name='password' className="px-2 py-2" /></>}
                     {editable && <><button onClick={editDetails}>Save</button></>}
                     <div className="p-4" style={{ backgroundColor: '#f8f9fa' }}>
                     </div>
                   
                   </div>
-<div>                 <button onClick={LogOut}>Log Out</button></div>
- 
-                    <div><button onClick={ShowAllUsers}>Show All Users</button></div>
+             
+
                     <div>  <button onClick={() => seteditable(!editable)}>Edit Profile</button></div>
 
                 </div>

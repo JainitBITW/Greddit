@@ -130,7 +130,7 @@ const UnfollowUser = async (req, res) => {
     const Followings = req.body.Followings;
     // if (userToUnfollow[0].Followers.length != 0) 
     { userToUnfollow[0].Followers = userToUnfollow[0].Followers.filter((item) => item.fusername !== currentUser); }
-    // userToUnfollow[0].numfollowers = userToUnfollow[0].Followers.length;
+    userToUnfollow[0].numfollowers = userToUnfollow[0].Followers.length;
 
     const tempuser1 = await User.find({ username: currentUser });
     if (tempuser1[0].Following.length != 0) { tempuser1[0].Following = tempuser1[0].Following.filter((item) => item.fusername !== usernameToUnfollow); }

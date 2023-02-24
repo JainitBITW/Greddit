@@ -6,17 +6,26 @@ import jwt from 'jwt-decode'
 import { ToastContainer, toast } from 'react-toastify';
 import { createRoot } from 'react-dom/client'
 import MySubgreddits from '../MySubgreddits/MySubgreddits';
+import NavBar from '../NavBar/NavBar';
 const  AllSubgreddits=() =>{
     const navigate = useNavigate();
     const [allSubgreddits, setallSubgreddits] = useState()
 
     const GetSubgreddits = async () => {
+        var token = localStorage.getItem('token')
+        var UserName = jwt(token).username
+        
 
         let res = await fetch('/api/allsubgreddits', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
+            body: JSON.stringify({
+                username: UserName
+            })
+
+                
         })
         let data = await res.json()
         setallSubgreddits(data.allSubgreddits)
@@ -64,6 +73,7 @@ const FollowSG = async (e) => {
 }
 
     return (<div>
+        <NavBar></NavBar>
           <ToastContainer
             position="top-right"
             autoClose={1000}

@@ -44,4 +44,5 @@ router.post('/getreports', GetReports);
 router.post('/blockuser', BlockUser);
 router.post('/ignorereport', IgnoreReport);
 router.post('/deletepost', DeletePost);
+router
 module.exports = router 

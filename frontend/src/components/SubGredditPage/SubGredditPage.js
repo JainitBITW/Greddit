@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import jwt from 'jwt-decode'
 import { useParams, useNavigate ,Link} from 'react-router-dom';
+import NavBar2 from '../NavBar/NavBar2';
 
 const SubGredditPage = () => {
   const navigate = useNavigate();
@@ -33,7 +34,8 @@ const Getfollowings = async () => {
     let currname = decoded.username
     if(subGredditPage){
       if(subGredditPage.subGredditCreator === currname){
-        setchecker(true)
+        setchecker(r=>true)
+        
       }
     }
     else 
@@ -66,14 +68,15 @@ const Getfollowings = async () => {
     })
     
     const x = await res.json()
-    console.log(x.SubGreddit)
+    console.log(x.SubGreddit.subGredditCreator+'sdfa')
     setsubGredditPage(per=>x.SubGreddit)
     let token = localStorage.getItem("token")
     let decoded = jwt(token)
     let currname = decoded.username
-    if(subGredditPage){
-      if(subGredditPage.subGredditCreator === currname){
-        setchecker(true)
+    if(x.SubGreddit){
+      if(x.SubGreddit.subGredditCreator === currname){
+        console.log('true')
+        setchecker(r=>true)
       }
     }
     else 
@@ -86,7 +89,9 @@ const Getfollowings = async () => {
     GetSubGredditPage();
     GetPosts();
     Getfollowings();
-  }, [])
+    console.log(checker)
+   
+  }, [checker])
 
 const GTfollowers = async (e) => {
     e.preventDefault()
@@ -295,6 +300,7 @@ console.log(followed)
 
   return  (
 <div >
+  <NavBar2></NavBar2>
 <ToastContainer
             position="top-right"
             autoClose={1000}
@@ -413,8 +419,9 @@ console.log(followed)
                     <div key={follow._id} >
                         <div className="card-body my-6 mx-5 card">
                          
-                            {((!(followed.includes(follow.postCreator)))?<span>   <h6 className="card-subtitle mb-2 text-muted">{(subGredditPage.subGredditBlockedUsers.includes(follow.postCreator) && !(checker))? "blocked User":follow.postCreator}</h6><button onClick={() => {FollowUser(follow.postCreator);}} className="btn btn-info">Follow</button></span> : (<span>   <h6 className="card-subtitle mb-2 text-muted">{(subGredditPage.subGredditBlockedUsers.includes(follow.postCreator) && !(checker))? "blocked User":follow.postCreator}</h6><button onClick={() => {UnfollowUser(follow.postCreator)}} className="btn btn-info">Unfollow</button></span>))}
+                            {((!(followed.includes(follow.postCreator)))?<span>   <h6 className="card-subtitle mb-2 text-muted">{(!subGredditPage.subGredditBlockedUsers.includes(follow.postCreator))? follow.postCreator: (!(checker))? "blocked user": follow.postCreator }</h6><button onClick={() => {FollowUser(follow.postCreator);}} className="btn btn-info">Follow</button></span> : (<span>   <h6 className="card-subtitle mb-2 text-muted">{(subGredditPage.subGredditBlockedUsers.includes(follow.postCreator) && !(checker))? "blocked User":follow.postCreator}</h6><button onClick={() => {UnfollowUser(follow.postCreator)}} className="btn btn-info">Unfollow</button></span>))}
                            <span> <h5 className="card-title">{follow.postTitle}</h5>
+                           
                           </span>
                             <p className="card-text">{follow.postContent}</p>
                             <Link id={follow._id} onClick={UpVote}><i id={follow._id}  className ={`${follow.postUpvotes.includes(user)? "fas fa-angle-double-up" :"fas fa-angle-up"}`} ></i></Link><h6>{follow.postUpvotes.length}</h6>

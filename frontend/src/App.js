@@ -47,7 +47,7 @@ function App() {
   return (
 
     <>
-      <NavBar></NavBar>
+
       <div>
         <Routes>
           <Route
@@ -61,8 +61,8 @@ function App() {
           <Route exact path="/profile/mysubgreddits" element={<MySubgreddits></MySubgreddits>}></Route>
           <Route exact path="/subgreddit/:subgredditname" element={<SubGredditPage></SubGredditPage>}></Route>
           <Route exact path="/allsubgreddits" element={<AllSubgreddits></AllSubgreddits>}></Route>
-          <Route exact path="/followers/:sg"  element={<SGFollowers></SGFollowers>}></Route>
-          <Route exact path="/pending/:sg"  element={<Pending></Pending>}></Route>
+          <Route exact path="/followers/:subgreddit"  element={<SGFollowers></SGFollowers>}></Route>
+          <Route exact path="/pending/:subgreddit"  element={<Pending></Pending>}></Route>
           <Route exact path="/report/:subgreddit/:id"  element={<Report></Report>}></Route>
           <Route exact path="/reports/:subgreddit" element={<Reports></Reports>}></Route>
         </Routes>

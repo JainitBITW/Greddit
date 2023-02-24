@@ -33,6 +33,10 @@ const NavBar = () => {
         console.log(user)
     }
     
+    useEffect(() => {
+        LogIn();
+    }, [user])
+
 
     return (
         <div>  <nav className="navbar fixed-bottom navbar-expand-lg navbar-dark bg-dark" >

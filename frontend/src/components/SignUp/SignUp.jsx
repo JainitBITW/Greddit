@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { Navigate, useNavigate } from 'react-router-dom';
 
+import NavBar from '../NavBar/NavBar';
 export default function SignUp() {
 
   const navigate = useNavigate();
@@ -61,6 +62,8 @@ export default function SignUp() {
   return (
 
     <section className="vh-100" style={{ backgroundColor: '#eee' }}>
+            <NavBar/>
+
       <ToastContainer
         position="top-right"
         autoClose={2000}

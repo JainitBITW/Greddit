@@ -9,7 +9,7 @@ export default function SGFollowers() {
 
   const params = useParams();
   const [creator, setcreator] = useState('')
-  console.log(params.sg)
+  console.log(params.subgreddit)
   const[followers,setfollowers] = useState([])
   const GetFollowers = async () => {
     const res = await fetch('/api/sg/getfollowers', {
@@ -18,7 +18,7 @@ export default function SGFollowers() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        subGredditName: params.sg,
+        subGredditName: params.subgreddit,
       })
     })
     const data = await res.json()
@@ -36,14 +36,19 @@ export default function SGFollowers() {
   const BlockFollower = async (e) => {
     e.preventDefault();
     var currname = e.target.id
+    var token = localStorage.getItem("token")
+    var decoded = jwt(token)
+    var username = decoded.username
     let res = await fetch('/api/blockfollower', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        subGredditName: params.sg,
-        username: currname
+        subGredditName: params.subgreddit,
+        username: currname,
+        currname: username
+        
       })
     })
     let data = await res.json()
@@ -55,10 +60,14 @@ export default function SGFollowers() {
     }
     else {
 console.log(data.error)
-      toast.error("Error Occured")
+toast.error(data.error)
+
     }
   }
   const UnlockFollower = async (e) => {
+    var token = localStorage.getItem("token")
+    var decoded = jwt(token)
+    var username = decoded.username
     e.preventDefault();
     var currname = e.target.id
     let res = await fetch('/api/unblockfollower', {
@@ -67,8 +76,9 @@ console.log(data.error)
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        subGredditName: params.sg,
-        username: currname
+        subGredditName: params.subgreddit,
+        username: currname,
+        currname: username
       })
     })
     let data = await res.json()
@@ -80,7 +90,7 @@ console.log(data.error)
     }
     else {
 
-      toast.error("Error Occured")
+      toast.error(data.error)
     }
   }
 
@@ -107,26 +117,26 @@ console.log(data.error)
             pauseOnHover />
       
     <div>{followers && followers.map((follow) => (
-      <div key={follow._id}>
-          {!follow.blocked &&  <div className="card-body my-3 mx-5 ">
+      <><div key={follow._id} display='none'>
+          {(!follow.blocked ) &&  <div className="card-body my-3 mx-5 card container ">
               <h5 className="card-title">{follow.username}</h5>
               <div>
-            {(!follow.blocked )&&  <button  onClick={BlockFollower} id = {follow.username} className="btn btn-success">Block Follower</button>}
-            {(follow.blocked )&&  <button  onClick={UnlockFollower} id = {follow.username} className="btn btn-danger">UnBlock Follower</button>}
+            {(!follow.blocked&& (follow.username!=creator) )&&  <button  onClick={BlockFollower} id = {follow.username} className="btn btn-success">Block Follower</button>}
+            {(follow.blocked&& (follow.username!=creator) )&&  <button  onClick={UnlockFollower} id = {follow.username} className="btn btn-danger">UnBlock Follower</button>}
               </div>
           </div>}
-      </div>))}
+      </div></>))}
       
     </div>
 
 
    { <div>{followers && followers.map((follow) => (
       <div key={follow._id}>
-         {follow.blocked&&  <div className="card-body my-3 mx-5 ">
+         {(follow.blocked)&&  <div className="card-body my-3 mx-5 card container">
               <h5 className="card-title">{follow.username}</h5>
               <div>
-            {(!follow.blocked )&&  <button  onClick={BlockFollower} id = {follow.username} className="btn btn-success">Block Follower</button>}
-            {(follow.blocked )&&  <button  onClick={UnlockFollower} id = {follow.username} className="btn btn-danger">UnBlock Follower</button>}
+            {(!follow.blocked&& (follow.username!=creator) )&&  <button  onClick={BlockFollower} id = {follow.username} className="btn btn-success">Block Follower</button>}
+            {(follow.blocked&& (follow.username!=creator) )&&  <button  onClick={UnlockFollower} id = {follow.username} className="btn btn-danger">UnBlock Follower</button>}
               </div>
           </div>}
       </div>))}

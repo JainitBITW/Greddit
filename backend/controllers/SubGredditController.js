@@ -20,7 +20,8 @@ const BlockUser = async (req, res) => {
         const SubGredditName = report.reportedSubGreddit;
         var SG = await SubGreddit.findOne({ subGredditName: SubGredditName });
         var blockedUsers = SG.subGredditBlockedUsers;
-        blockedUsers.push(report.reportUser);
+        if( !blockedUsers.includes(report.reportUser) )
+       { blockedUsers.push(report.reportUser);}
         SG.subGredditBlockedUsers = blockedUsers;
         SG.subGredditFollowers.forEach((follower) => {
             if (follower === report.reportUser) {
@@ -226,7 +227,13 @@ const GetPosts = async (req, res) => {
 const BlockFollower = async (req, res) => {
     const subGredditName = req.body.subGredditName;
     const username = req.body.username;
+    const currname = req.body.currname;
     var SG = await SubGreddit.findOne({ subGredditName: subGredditName });
+    if(SG.subGredditCreator != currname){
+        res.status(400).json({ success: false, error: "You are not the creator of this subGreddit" });
+        return;
+    }
+
     console.log(subGredditName)
     console.log(username)
     // console.log(SG[0])
@@ -251,10 +258,16 @@ const BlockFollower = async (req, res) => {
 const UnblockFollower = async (req, res) => {
     const subGredditName = req.body.subGredditName;
     const username = req.body.username;
+    const currname = req.body.currname;
     console.log(subGredditName)
     console.log(username)
     try {
         var SG = await SubGreddit.findOne({ subGredditName: subGredditName });
+        if(SG.subGredditCreator != currname){
+            res.status(400).json({ success: false, error: "You are not the creator of this subGreddit" });
+            return;
+        }
+
         var followers = SG.subGredditFollowers;
         followers.forEach((follower) => {
             if (follower.username == username) {
@@ -462,7 +475,7 @@ const DeleteSubGreddit = async (req, res) => {
         reports.forEach(async (report) => {
             await Report.deleteOne({ _id: report._id })
         })
-        
+
         var postids = []
         SG.subGredditPosts.forEach(post => {
             postids.push(post.postId)
@@ -489,10 +502,12 @@ const DeleteSubGreddit = async (req, res) => {
 }
 const ShowAllSubGreddits = async (req, res) => {
     console.log('here')
+    var username = req.body.username;
     try {
         const subGreddits = await SubGreddit.find();
         SubGredditsCompact = [];
         subGreddits.forEach((subGreddit) => {
+            if(subGreddit.subGredditCreator != username){
             SubGredditsCompact.push({
                 subGredditName: subGreddit.subGredditName,
                 subGredditDescription: subGreddit.subGredditDescription,
@@ -501,7 +516,9 @@ const ShowAllSubGreddits = async (req, res) => {
                 subGredditnumfollowers: subGreddit.subGredditFollowers.length,
                 subGredditnumposts: subGreddit.subGredditPosts.length
             })
+        }
         })
+
         res.status(200).json({ allSubgreddits: SubGredditsCompact })
     }
     catch (error) {
@@ -584,6 +601,7 @@ const CreatePost = async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 }
+
 
 
 

@@ -151,7 +151,7 @@ const deleteSubGreddit = async (subGredditId) => {
           </div>
         </div>
         <div className="text-center">
-          <a href className="btn btn-primary btn-roundedmb-4" data-toggle="modal" data-target="#modalRegisterForm">Make a New SubGreddit</a>
+          <a href className="btn btn-primary btn-roundedmb-4 my-5" data-toggle="modal" data-target="#modalRegisterForm">Make a New SubGreddit</a>
         </div>
         </div>
         {allSubgreddits.map((subGreddit) => (
