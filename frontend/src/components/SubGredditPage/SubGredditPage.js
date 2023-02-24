@@ -19,9 +19,38 @@ const SubGredditPage = () => {
   const [user, setUser] = useState(username)
   const [followed, setfollowed] = useState([])
   const [report, setreport] = useState(false)
+  const [commentbox, setcommentbox] = useState('');
   const [checker, setchecker] = useState(false)
 
 
+  const CommentPost = async (e) => {
+    e.preventDefault()
+    let token = localStorage.getItem("token")
+    let decoded = jwt(token)
+    let username = decoded.username
+    let res = await fetch('http://localhost:4000/api/commentpost', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+
+      body: JSON.stringify({
+        username: username,
+        postId: e.target.id,
+        comment: commentbox
+      })
+    })
+    let x = await res.json()
+    console.log(x)
+    if (x.success) {
+      toast.success("Commented Successfully")
+      setcommentbox('')
+      GetPosts();
+      GetSubGredditPage();
+    }
+
+  }
+  
   const Report = async (e) => {
 
     navigate(`/report/${params.subgreddit}/${e.target.id}`)
@@ -458,6 +487,19 @@ const SubGredditPage = () => {
 
                   <span><button id={follow._id} onClick={Report} className="btn btn-danger">Report</button> </span>
 
+                  
+                  {follow.postComments&& follow.postComments.map((comment) => (
+                    <div key={comment._id} className="card-body my-6 mx-5 card">
+                      <h6 className="card-subtitle mb-2 text-muted">{comment.user}</h6>
+                      <p className="card-text">{comment.comment}</p>
+                      
+                    </div>
+                  ))}
+
+                  <div className="input-group mb-3">
+                    <input type="text" className="form-control" value={commentbox} aria-label="Recipient's username" aria-describedby="button-addon2" onChange={(e) => { setcommentbox(e.target.value) }} />
+                    <button className="btn btn-outline-secondary" type="button" id={follow._id} onClick={ CommentPost} >Comment</button>
+                    </div>
 
                 </div>
               </div>))}

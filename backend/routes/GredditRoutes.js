@@ -3,7 +3,7 @@ const router = express.Router();
 const {createUser} = require('../controllers/signupController');
 const {loginUser} = require('../controllers/LoginController');
 const {EditProfile , AllUsers ,UnfollowUser,RemoveFollower, Getfollowings,Getfollowers,  FollowUser} = require('../controllers/ProfileController');
-const {CreateSubGreddit,RemoveSavedPost,BlockUser,GetsavedPosts,SavePost,IgnoreReport,DeletePost,CreateReport,GetReports,PostDownvote,PostUpvote,GetPosts,RejectPending,CreatePost,AcceptPending,GetPending,UnblockFollower,GetFollowersSG,BlockFollower ,FollowSubGreddit,ShowAllSubGreddits,DeleteSubGreddit, GetSubGreddit,GetMySubgreddits} = require('../controllers/SubGredditController');
+const {CreateSubGreddit,CommentPost,RemoveSavedPost,BlockUser,GetsavedPosts,SavePost,IgnoreReport,DeletePost,CreateReport,GetReports,PostDownvote,PostUpvote,GetPosts,RejectPending,CreatePost,AcceptPending,GetPending,UnblockFollower,GetFollowersSG,BlockFollower ,FollowSubGreddit,ShowAllSubGreddits,DeleteSubGreddit, GetSubGreddit,GetMySubgreddits} = require('../controllers/SubGredditController');
 router.get('/signup',(req,res) => {
     res.json({message: "connected to signup backend"});
     
@@ -47,4 +47,9 @@ router.post('/deletepost', DeletePost);
 router.post('/savepost', SavePost);
 router.post('/getsavedposts', GetsavedPosts);
 router.post('/removesavedpost', RemoveSavedPost);
+router.get('/commentpost', (req,res) => {
+    res.json({message: "connected to comment backend"});
+    }
+        )
+router.post('/commentpost', CommentPost);
 module.exports = router 

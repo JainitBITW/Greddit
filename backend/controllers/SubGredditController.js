@@ -28,13 +28,13 @@ const BlockUser = async (req, res) => {
                follower.blocked = true;
             }
         })
-        // console.log(SG.subGredditFollowers)
-        // console.log(SG.subGredditBlockedUsers)
+        console.log(SG.subGredditFollowers)
+        console.log(SG.subGredditBlockedUsers)
 
         await SG.save();
     }
     catch (error) {
-        console.log(error)
+        // console.log(error)
         res.status(400).json({ success: false, error: error.message });
     }
 }
@@ -56,8 +56,8 @@ const IgnoreReport = async (req, res) => {
 const DeletePost = async (req, res) => {
     const reportId = req.body.reportId;
     
-    console.log(reportId)
-    // console.log("delete post")
+    // console.log(reportId)
+    console.log("delete post")
     try {
         var report = await Report.findOne({ _id: reportId });
 
@@ -75,7 +75,7 @@ const DeletePost = async (req, res) => {
         })
         SG.subGredditPosts = newposts;
         var reportt = await Report.deleteMany({ reportedPost: report.reportedPost });
-        console.log(SG.subGredditPosts)
+        // console.log(SG.subGredditPosts)
         await SG.save();
         res.status(200).json({ success: true, post: post });
     }
@@ -92,7 +92,7 @@ const GetReports = async (req, res) => {
     const subGredditName = req.body.subGredditName;
     try {
         const reports = await Report.find({ reportedSubGreddit: subGredditName });
-        console.log(reports)
+        // console.log(reports)
         res.status(200).json({ success: true, reports: reports });
     }
     catch (error) {
@@ -110,7 +110,7 @@ const CreateReport = async (req, res) => {
     const post = await Post.findOne({ _id: reportedPost });
 
     const reportedText = post.postContent;
-    console.log(reportedText, reportedBy, reportedPost, reportedConcern, reportedSubGreddit)
+    // console.log(reportedText, reportedBy, reportedPost, reportedConcern, reportedSubGreddit)
 
     try {
 
@@ -123,7 +123,7 @@ const CreateReport = async (req, res) => {
             "reportUser": post.postCreator,
         });
         var reportt = await Report.create(report);
-        console.log(reportt)
+        // console.log(reportt)
         post.postReports.push(reportt._id);
         await post.save();
 
@@ -168,8 +168,8 @@ const PostUpvote = async (req, res) => {
 const PostDownvote = async (req, res) => {
     const postId = req.body.postId;
     const username = req.body.Username;
-    // console.log(postId)
-    // console.log(username)
+    console.log(postId)
+    console.log(username)
     try {
         var post = await Post.findOne({ _id: postId });
         var upvotes = post.postUpvotes;
@@ -202,7 +202,7 @@ const PostDownvote = async (req, res) => {
 
 const GetPosts = async (req, res) => {
     const subGredditName = req.body.subGredditName;
-    // console.log(subGredditName)
+    console.log(subGredditName)
     try {
         SG = await SubGreddit.findOne({ subGredditName: subGredditName });
         // console.log(SG)
@@ -236,16 +236,16 @@ const BlockFollower = async (req, res) => {
         return;
     }
 
-    console.log(subGredditName)
-    console.log(username)
+    // console.log(subGredditName)
+    // console.log(username)
     // console.log(SG[0])
     try {
         var followers = SG.subGredditFollowers;
-        // console.log(followers + "followers")
+        console.log(followers + "followers")
         followers.forEach((follower) => {
-            // console.log(follower + "follower")
+            console.log(follower + "follower")
             if (follower.username == username) {
-                console.log(follower)
+                // console.log(follower)
                 follower.blocked = true;
             }
         })
@@ -255,7 +255,7 @@ const BlockFollower = async (req, res) => {
                 blocks.push(follower.username)
             }
         })
-        console.log(blocks)
+        // console.log(blocks)
         SG.subGredditBlockedUsers = blocks;
         SG.subGredditFollowers = followers;
         await SG.save();
@@ -269,8 +269,8 @@ const UnblockFollower = async (req, res) => {
     const subGredditName = req.body.subGredditName;
     const username = req.body.username;
     const currname = req.body.currname;
-    console.log(subGredditName)
-    console.log(username)
+    // console.log(subGredditName)
+    // console.log(username)
     try {
         var SG = await SubGreddit.findOne({ subGredditName: subGredditName });
         if(SG.subGredditCreator != currname){
@@ -290,7 +290,7 @@ const UnblockFollower = async (req, res) => {
                 blocks.push(follower.username)
             }
         })
-        console.log(blocks)
+        // console.log(blocks)
         SG.subGredditBlockedUsers = blocks;
         
         SG.subGredditFollowers = followers;
@@ -305,7 +305,7 @@ const UnblockFollower = async (req, res) => {
 
 const GetFollowersSG = async (req, res) => {
     const subGredditName = req.body.subGredditName;
-    console.log(subGredditName)
+    // console.log(subGredditName)
 
     try {
         const subGreddit = await SubGreddit.findOne({ subGredditName: subGredditName });
@@ -320,7 +320,7 @@ const GetFollowersSG = async (req, res) => {
 const CreateSubGreddit = async (req, res) => {
 
 
-    console.log(req.body)
+    // console.log(req.body)
     var BannedWords = req.body.subGredditBannedWords.split(' ');
     var BannedWordsObject = [];
     BannedWords.forEach((word) => {
@@ -371,11 +371,11 @@ const GetMySubgreddits = async (req, res) => {
                 subGredditdate: subGreddit.subGredditCreatedDate,
 
             })
-            console.log(subGreddit.subGredditPendingFollowers.length)
+            // console.log(subGreddit.subGredditPendingFollowers.length)
         })
 
         res.status(200).json({ SubGreddits: SubGredditsCompact })
-        console.log(SubGredditsCompact)
+        // console.log(SubGredditsCompact)
     }
     catch (error) {
         res.status(400).json({ error: error.message });
@@ -384,8 +384,8 @@ const GetMySubgreddits = async (req, res) => {
 const AcceptPending = async (req, res) => {
     const subGredditName = req.body.subGredditName;
     const username = req.body.username;
-    console.log(subGredditName)
-    console.log(username)
+    // console.log(subGredditName)
+    // console.log(username)
     try {
         var SG = await SubGreddit.findOne({ subGredditName: subGredditName });
         var pendingFollowers = SG.subGredditPendingFollowers;
@@ -410,8 +410,8 @@ const AcceptPending = async (req, res) => {
 const RejectPending = async (req, res) => {
     const subGredditName = req.body.subGredditName;
     const username = req.body.username;
-    console.log(subGredditName)
-    console.log(username)
+    // console.log(subGredditName)
+    // console.log(username)
     try {
         var Sg = await SubGreddit.findOne({ subGredditName: subGredditName });
         var pendingFollowers = Sg.subGredditPendingFollowers;
@@ -420,7 +420,7 @@ const RejectPending = async (req, res) => {
         })
         Sg.subGredditPendingFollowers = pendingFollowers;
         await Sg.save();
-        // console.log(Sg)
+        console.log(Sg)
         res.status(200).json({ success: true, pendingFollowers: pendingFollowers });
     }
     catch (error) {
@@ -431,7 +431,7 @@ const RejectPending = async (req, res) => {
 
 const GetSubGreddit = async (req, res) => {
     const subGredditName = req.body.subGredditName;
-    console.log(subGredditName)
+    // console.log(subGredditName)
     try {
         const subGreddit = await SubGreddit.find({ subGredditName: subGredditName });
         let blockedUsers = subGreddit[0].subGredditBlockedUsers;
@@ -440,7 +440,7 @@ const GetSubGreddit = async (req, res) => {
                 blockedUsers.push(follower.username)
             }
         })
-        // console.log(blockedUsers)
+        console.log(blockedUsers)
 
 
         SubGredditsCompact = ({
@@ -455,19 +455,19 @@ const GetSubGreddit = async (req, res) => {
             subGredditBlockedUsers: blockedUsers
 
         })
-        // console.log(SubGredditsCompact)
+        console.log(SubGredditsCompact)
 
         res.status(200).json({ SubGreddit: SubGredditsCompact })
     }
     catch (error) {
-        // console.log(error.message)
+        console.log(error.message)
         res.status(400).json({ error: error.message + 'DFSDF' });
     }
 }
 
 const GetPending = async (req, res) => {
     const subGredditName = req.body.subGredditName;
-    console.log(subGredditName)
+    // console.log(subGredditName)
     try {
         const subGreddit = await SubGreddit.find({ subGredditName: subGredditName });
         SubGredditsCompact = [];
@@ -475,7 +475,7 @@ const GetPending = async (req, res) => {
             SubGredditsCompact.push({
                 username: follower.username
             })
-            console.log(follower.username)
+            // console.log(follower.username)
         })
         res.status(200).json({ success: true, SubGreddit: SubGredditsCompact })
     }
@@ -488,7 +488,7 @@ const GetPending = async (req, res) => {
 
 const DeleteSubGreddit = async (req, res) => {
     const subGredditName = req.body.subGredditName;
-    // console.log(subGredditName)
+    console.log(subGredditName)
     try {
         var SG = await SubGreddit.findOne({ subGredditName: subGredditName })
         var reports = await Report.find({ reportedSubGreddit: subGredditName })
@@ -500,20 +500,20 @@ const DeleteSubGreddit = async (req, res) => {
         SG.subGredditPosts.forEach(post => {
             postids.push(post.postId)
         });
-        // console.log(postids)
+        console.log(postids)
         for (let i = 0; i < postids.length; i++) {
             try {
                 var post = await Post.deleteOne({ _id: postids[i] })
             }
             catch (error) {
-                // console.log(error)
+                console.log(error)
             }
 
-            // console.log(post)
+            console.log(post)
         }
 
         const subGreddit = await SubGreddit.deleteOne({ subGredditName: subGredditName });
-        // console.log(subGreddit)
+        console.log(subGreddit)
         res.status(200).json({ success: true })
     }
     catch (error) {
@@ -521,7 +521,7 @@ const DeleteSubGreddit = async (req, res) => {
     }
 }
 const ShowAllSubGreddits = async (req, res) => {
-    console.log('here')
+    // console.log('here')
     var username = req.body.username;
     try {
         const subGreddits = await SubGreddit.find();
@@ -564,12 +564,12 @@ const ShowAllSubGreddits = async (req, res) => {
             })
         }
         )
-        console.log(SubGredditsCompact)
+        // console.log(SubGredditsCompact)
 
         res.status(200).json({ allSubgreddits: SubGredditsCompact })
     }
     catch (error) {
-        console.log(error.message)
+        // console.log(error.message)
         res.status(400).json({ error: error.message });
     }
 }
@@ -578,7 +578,7 @@ const ShowAllSubGreddits = async (req, res) => {
 const FollowSubGreddit = async (req, res) => {
     const subGredditName = req.body.subGredditName;
     const username = req.body.UserName;
-    console.log(subGredditName, username)
+    // console.log(subGredditName, username)
     try {
         const subGreddit = await SubGreddit.find({ subGredditName: subGredditName });
         var subGredditPendingFollowers = subGreddit[0].subGredditPendingFollowers;
@@ -600,12 +600,12 @@ const FollowSubGreddit = async (req, res) => {
             res.status(400).json({ error: 'Already Following' });
             return;
         }
-        // console.log(Followers)
+        console.log(Followers)
 
 
         subGreddit[0].subGredditPendingFollowers.push({ username: username });
         await subGreddit[0].save();
-        // console.log(subGreddit[0].subGredditPendingFollowers)
+        console.log(subGreddit[0].subGredditPendingFollowers)
         res.status(200).json({ success: true })
 
     }
@@ -623,7 +623,7 @@ const CreatePost = async (req, res) => {
     const postTitle = req.body.postTitle;
     const postBody = req.body.postBody;
 
-    // console.log(subGredditName, usernamee, postTitle, postBody)
+    console.log(subGredditName, usernamee, postTitle, postBody)
     try {
         var subGreddit = await SubGreddit.findOne({ subGredditName: subGredditName });
         // var subGredditPosts = subGreddit[0].subGredditPosts;
@@ -638,14 +638,14 @@ const CreatePost = async (req, res) => {
             "postId": post._id,
             "postTitle": postTitle,
         });
-        // console.log(subGreddit.subGredditPosts)
-        // console.log(post._id)
+        console.log(subGreddit.subGredditPosts)
+        console.log(post._id)
         await subGreddit.save();
         res.status(200).json({ success: true })
 
     }
     catch (error) {
-        // console.log(error)
+        console.log(error)
         res.status(400).json({ error: error.message });
     }
 }
@@ -675,7 +675,7 @@ const GetsavedPosts = async (req, res) => {
     var posts = [];
     try {
         const user = await User.findOne({ username: username });
-        // console.log(user.SavedPosts)
+        console.log(user.SavedPosts)
         var savedPosts = user.SavedPosts;
         for(var i=0;i<savedPosts.length;i++){
             let post = await Post.findOne({ _id: savedPosts[i] });
@@ -713,8 +713,30 @@ const RemoveSavedPost = async (req, res) => {
     }
 }
 
+const CommentPost = async (req, res) => {
+    // console.log(req.body)
+    const postid = req.body.postId;
+    const username = req.body.username;
+    const comment = req.body.comment;
+    console.log(postid, username, comment.length)
+    if (!(comment.length)) {
+        res.status(400).json({ error: "Comment cannot be empty" });
+        return;
+    }
+
+    try {
+        let post  = await Post.findOne({ _id: postid });
+        post.postComments.push({user: username, comment: comment});
+        await post.save();
+        res.status(200).json({ success: true })
+    }
+    catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
 
 
 
 
-module.exports = { RemoveSavedPost,CreateSubGreddit,GetsavedPosts, SavePost,BlockUser,IgnoreReport, DeletePost, CreateReport, GetReports, PostDownvote, PostUpvote, GetPosts, RejectPending, AcceptPending, UnblockFollower, GetPending, BlockFollower, GetFollowersSG, GetSubGreddit, FollowSubGreddit, CreatePost, ShowAllSubGreddits, GetMySubgreddits, DeleteSubGreddit } 
+
+module.exports = { RemoveSavedPost,CommentPost,CreateSubGreddit,GetsavedPosts, SavePost,BlockUser,IgnoreReport, DeletePost, CreateReport, GetReports, PostDownvote, PostUpvote, GetPosts, RejectPending, AcceptPending, UnblockFollower, GetPending, BlockFollower, GetFollowersSG, GetSubGreddit, FollowSubGreddit, CreatePost, ShowAllSubGreddits, GetMySubgreddits, DeleteSubGreddit } 
