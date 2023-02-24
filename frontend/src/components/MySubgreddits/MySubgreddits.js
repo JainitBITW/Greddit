@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import jwt from 'jwt-decode'
 import { useNavigate ,Navigate,Link} from 'react-router-dom';
-
+import NavBar from '../NavBar/NavBar';
 
 export default function MySubgreddits() {
  
@@ -102,6 +102,7 @@ const deleteSubGreddit = async (subGredditId) => {
  
     return   (
       <div>
+        <NavBar></NavBar>
          <ToastContainer
             position="top-right"
             autoClose={1000}

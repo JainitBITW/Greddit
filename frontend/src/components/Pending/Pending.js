@@ -109,6 +109,7 @@ const DPending = async (e) => {
                 <button onClick={DPending} id = {follow.username} className="btn btn-danger">dECLINE</button>   </div>
             </div>
         </div>))}
+        {(followers.length==0) && <div className="card-body my-3 mx-5 "> <h2 className="card-title">No Pending Requests Go do marketing</h2></div>}
         
       </div></div>
   )

@@ -71,6 +71,56 @@ const FollowSG = async (e) => {
         console.log(data)   
     }
 }
+const deleteSubGreddit = async (subGredditId) => {
+  const res = await fetch('/api/deletesubgreddit', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({subGredditName : subGredditId })
+  })
+  const response = await res.json()
+  console.log(response+'ffgsdg')
+  if(response.success)
+  {
+    toast.success("SubGreddit Deleted Successfully")
+    GetSubgreddits();
+  }
+  else
+  {
+    toast.error("SubGreddit Deletion Failed")
+  }
+}
+
+const BlockFollower = async (e) => {
+    e.preventDefault();
+    var token = localStorage.getItem("token")
+    var decoded = jwt(token)
+    var currname = decoded.username
+    let res = await fetch('/api/blockfollower', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        subGredditName: e.target.id,
+        username: currname,
+        
+      })
+    })
+    let data = await res.json()
+    if (data.success) {
+      // localStorage.setItem("token", data.token)
+      toast.success("yOU LEFT SUCCESSFULLY BYE BYE")
+    //   console.log(data.followers)
+      GetSubgreddits();
+    }
+    else {
+console.log(data.error)
+toast.error(data.error)
+
+    }
+  }
 
     return (<div>
         <NavBar></NavBar>
@@ -84,7 +134,7 @@ const FollowSG = async (e) => {
             pauseOnFocusLoss
             draggable
             pauseOnHover />
-            <MySubgreddits/>
+            
         { allSubgreddits&& allSubgreddits.map((subGreddit) => (
             <div>
            <div key={subGreddit.subGredditName} className=" my-3 card w-75">
@@ -101,11 +151,24 @@ const FollowSG = async (e) => {
                         Tags : {subGreddit.subGredditTags.map((bannedWord) => (<div className="chip" data-mdb-close="true" >{bannedWord.tag} </div>))}
                     </div>
 
-                    <div className='py-2'> <button id={subGreddit.subGredditName} onClick={FollowSG} className="btn btn-info mx-2">Send Follow Request</button>
-
-
-                         {/* {(!(followed.includes(UserName.username))?<button onClick={() => {FollowUser(UserName.username); console.log(followed)}} className="btn btn-info">Follow</button> : (<button onClick={() => {UnfollowUser(UserName.username)}} className="btn btn-info">Unfollow</button>))} */}
-                     </div>
+                   
+                     { (subGreddit.subGredditCreator) && <div className='py-2'> <button id={subGreddit.subGredditName} onClick={()=>deleteSubGreddit(subGreddit.subGredditName)} className="btn btn-info mx-2">Delete</button>
+                     </div>}
+                    {
+                    (subGreddit.subGredditBlockedUsers.includes(jwt(localStorage.getItem('token')).username)) && <div className='py-2'>Sorry you cant join once you are blocked or you left </div>
+                    }
+                    
+                    {
+                    (subGreddit.subGredditPendingFollowers.includes(jwt(localStorage.getItem('token')).username)) && <div className='py-2'>Your Request to Join is pending</div>
+                    }
+                    {
+                      ( ( !(subGreddit.subGredditPendingFollowers.includes(jwt(localStorage.getItem('token')).username)) && (!subGreddit.subGredditCreator))&& (!subGreddit.subGredditFollowers.includes(jwt(localStorage.getItem('token')).username))&& (!subGreddit.subGredditBlockedUsers.includes(jwt(localStorage.getItem('token')).username)) )&&
+                      ( <div className='py-2'> <button id={subGreddit.subGredditName} onClick={FollowSG} className="btn btn-info mx-2">Join</button></div>)
+                    }
+    {
+                        (subGreddit.subGredditFollowers.includes(jwt(localStorage.getItem('token')).username)) && (<div className='py-2'> <button id={subGreddit.subGredditName} onClick={BlockFollower} className="btn btn-danger mx-2">Leave</button></div>)
+                    }
+                
                  </div>
              </div>
 

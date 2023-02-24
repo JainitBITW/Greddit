@@ -24,7 +24,11 @@ const userSchema = new Schema({
             lastname: String,
             fusername: { type: String },
         }], sparse: true
-    }
+    },
+    SavedPosts : {
+        type: []
+    },
+    
 });
 
 module.exports = mongoose.model('User', userSchema);

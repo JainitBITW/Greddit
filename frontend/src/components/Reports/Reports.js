@@ -9,7 +9,7 @@ export default function Reports() {
     const [reports, setreports] = useState([])
 
     const GetReports = async () => {
-        let res = await fetch('/api/getreports', {
+        let res = await fetch('http://localhost:4001/api/getreports', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ export default function Reports() {
 
 const BlockUser = async(e) => {
     e.preventDefault();
-    let res = await fetch('/api/blockuser', {
+    let res = await fetch('http://localhost:4001/api/blockuser', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ const BlockUser = async(e) => {
 }
 const IgnoreReport = async(e) => {
     e.preventDefault();
-    let res = await fetch('/api/ignorereport', {
+    let res = await fetch('http://localhost:4001/api/ignorereport', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ const IgnoreReport = async(e) => {
 }
 const DeletePost = async(e) => {
     e.preventDefault();
-    let res = await fetch('/api/deletepost', {
+    let res = await fetch('http://localhost:4001/api/deletepost', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

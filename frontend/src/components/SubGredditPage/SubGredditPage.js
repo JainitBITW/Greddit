@@ -11,7 +11,7 @@ const SubGredditPage = () => {
   let token = localStorage.getItem("token")
     let decoded = jwt(token)
     let username = decoded.username
-// console.log(params.subgredditname)
+// console.log(params.subgreddit)
   const [subGredditPage,  setsubGredditPage] = useState()
 const [postTitle , setpostTitle] = useState('')
 const [postBody , setpostBody] = useState('')
@@ -23,7 +23,7 @@ const [checker,setchecker] = useState(false)
 
 const Report = async (e) => {
   
-  navigate(`/report/${params.subgredditname}/${e.target.id}`)
+  navigate(`/report/${params.subgreddit}/${e.target.id}`)
 
 
 }
@@ -63,7 +63,7 @@ const Getfollowings = async () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        subGredditName: params.subgredditname
+        subGredditName: params.subgreddit
       })
     })
     
@@ -104,6 +104,30 @@ const GTPending = async (e) => {
 navigate(`/pending/${e.target.id}`)
 
   }
+  const SavePost = async (e) => {
+    e.preventDefault()
+    let token = localStorage.getItem("token")
+    let decoded = jwt(token)
+    let username = decoded.username
+    let res = await fetch('/api/savepost', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username,
+        postID: e.target.id
+      })
+    })
+    let data = await res.json()
+    if(data.success){
+      toast.success("Post Saved Successfully")
+    }
+    else{
+      toast.error(data.error)
+    }
+  }
+  
   const GetPosts = async (e) => {
     // e.preventDefault()
     let res = await fetch('/api/getposts', {
@@ -112,7 +136,7 @@ navigate(`/pending/${e.target.id}`)
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        subGredditName: params.subgredditname
+        subGredditName: params.subgreddit
       })
     })
     let data = await res.json()
@@ -133,7 +157,7 @@ const MakePost = async (e) => {
     let username = decoded.username
     setUser(username)
     console.log({
-      subGredditName: params.subgredditname,
+      subGredditName: params.subgreddit,
       postTitle: postTitle,
       postBody: postBody,
       Username: user,
@@ -145,7 +169,7 @@ const MakePost = async (e) => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            subGredditName: params.subgredditname,
+            subGredditName: params.subgreddit,
             postTitle: postTitle,
             postBody: postBody,
             Username: username
@@ -355,13 +379,13 @@ console.log(followed)
         </div>
       </section>
       <section className="relative py-16 bg-blueGray-200">
-        <div className="container mx-auto px-4">6
+        <div className="container mx-auto px-4">
           <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
             <div className="px-6">
-              <div className="flex flex-wrap justify-center">
-                <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
+              <div className="flex flex-wrap justify-left">
+                <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-left">
                   <div className="relative">
-                    <img alt="..." src="https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg" className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px" />
+                    <img alt="..." src="https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg" className="  align-left  absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px" />
                   </div>
                 </div>
                 <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
@@ -371,7 +395,9 @@ console.log(followed)
                     </a>
                   </div>
                 </div>
-                <div className="w-full lg:w-4/12 px-4 lg:order-1">
+               
+              </div>
+              <div className="w-full lg:w-4/12 px-4 lg:order-1">
                   <div className="flex justify-center py-4 lg:pt-4 pt-8">
                     <div className="mr-4 p-3 text-center">
                       <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600"><Link id= {subGredditPage&&subGredditPage.subGredditName}onClick={GTfollowers} >{subGredditPage&& subGredditPage.subGredditnumfollowers}</Link ></span><span className="text-sm text-blueGray-400">Followers</span>
@@ -380,11 +406,10 @@ console.log(followed)
                       <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">{subGredditPage&& subGredditPage.subGredditnumposts}</span><span className="text-sm text-blueGray-400">Posts</span>
                     </div>
                     <div className="lg:mr-4 p-3 text-center">
-                      <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600"><Link  id= {subGredditPage&&subGredditPage.subGredditName} onClick={GTPending} >{subGredditPage&& subGredditPage.subGredditnumPendingFollowers}</Link ></span><span className="text-sm text-blueGray-400">Requests</span>
+                      <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">{subGredditPage&& subGredditPage.subGredditnumPendingFollowers}</span><span className="text-sm text-blueGray-400">Requests</span>
                     </div>
                   </div>
                 </div>
-              </div>
               <div className="text-center mt-12">
                 <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
                   {subGredditPage&& subGredditPage.subGredditName}
@@ -419,15 +444,16 @@ console.log(followed)
                     <div key={follow._id} >
                         <div className="card-body my-6 mx-5 card">
                          
-                            {((!(followed.includes(follow.postCreator)))?<span>   <h6 className="card-subtitle mb-2 text-muted">{(!subGredditPage.subGredditBlockedUsers.includes(follow.postCreator))? follow.postCreator: (!(checker))? "blocked user": follow.postCreator }</h6><button onClick={() => {FollowUser(follow.postCreator);}} className="btn btn-info">Follow</button></span> : (<span>   <h6 className="card-subtitle mb-2 text-muted">{(subGredditPage.subGredditBlockedUsers.includes(follow.postCreator) && !(checker))? "blocked User":follow.postCreator}</h6><button onClick={() => {UnfollowUser(follow.postCreator)}} className="btn btn-info">Unfollow</button></span>))}
-                           <span> <h5 className="card-title">{follow.postTitle}</h5>
+                            {((!(followed.includes(follow.postCreator)))?<span>   <h6 className="card-subtitle mb-2 text-muted">{(!subGredditPage.subGredditBlockedUsers.includes(follow.postCreator))? follow.postCreator: (!(checker))? "blocked user": follow.postCreator }</h6><button onClick={() => {FollowUser(follow.postCreator);}} className="btn btn-success">Follow</button></span> : (<span>   <h6 className="card-subtitle mb-2 text-muted">{(subGredditPage.subGredditBlockedUsers.includes(follow.postCreator) && !(checker))? "blocked User":follow.postCreator}</h6><button onClick={() => {UnfollowUser(follow.postCreator)}} className="btn btn-danger">Unfollow</button></span>))}
                            
+                           <span> <h5 className="card-title">{follow.postTitle}</h5>
+                           <button id = {follow._id} onClick={SavePost} className="btn btn-info">Save</button>
                           </span>
                             <p className="card-text">{follow.postContent}</p>
                             <Link id={follow._id} onClick={UpVote}><i id={follow._id}  className ={`${follow.postUpvotes.includes(user)? "fas fa-angle-double-up" :"fas fa-angle-up"}`} ></i></Link><h6>{follow.postUpvotes.length}</h6>
                             <Link id={follow._id} onClick={DownVote}><i id={follow._id}   className ={`${follow.postDownvotes.includes(user)? "fas fa-angle-double-down" :"fas fa-angle-down"}`}></i></Link><h6>{follow.postDownvotes.length}</h6>
 
-                           <span><button id={follow._id} onClick={Report} className="btn btn-info">Report</button> </span> 
+                           <span><button id={follow._id} onClick={Report} className="btn btn-danger">Report</button> </span> 
                             
 
                         </div>

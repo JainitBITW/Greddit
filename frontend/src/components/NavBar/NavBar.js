@@ -62,7 +62,10 @@ const NavBar = () => {
                         }
                        
                        { (!user)&&  <li className="nav-item">
-                            <Link className="nav-link" to="/allsubgreddits"><AiOutlineUnorderedList/>My SubGreddits</Link>
+                            <Link className="nav-link" to="/profile/mysubgreddits"><AiOutlineUnorderedList/>My SubGreddits</Link>
+                        </li>}
+                        { (!user)&&  <li className="nav-item">
+                            <Link className="nav-link" to="/allsubgreddits"><AiOutlineUnorderedList/>All SubGreddits</Link>
                         </li>}
                         
                     </ul>

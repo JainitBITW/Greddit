@@ -8,7 +8,7 @@ import jwt from 'jwt-decode'
 
 const NavBar2 = () => {
     const params = useParams();
-    console.log(params.subgredditname)
+    console.log(params.subgreddit)
 
     const [user, setuser] = useState(false)
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ const NavBar2 = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    subGredditName: params.subgredditname
+                    subGredditName: params.subgreddit
                 })
             })
 
@@ -67,16 +67,16 @@ const NavBar2 = () => {
     const GTfollowers = async (e) => {
         e.preventDefault()
 
-        navigate(`/followers/${params.subgredditname}`)
+        navigate(`/followers/${params.subgreddit}`)
     }
     const GTPending = async (e) => {
         e.preventDefault()
 
-        navigate(`/pending/${params.subgredditname}`)
+        navigate(`/pending/${params.subgreddit}`)
     }
     const GTReports = async (e) => {
         e.preventDefault()
-    navigate(`/reports/${params.subgredditname}`)
+    navigate(`/reports/${params.subgreddit}`)
 
     
       }
@@ -104,9 +104,12 @@ const NavBar2 = () => {
                             <Link className="nav-link " onClick={LogOut} to='/login?mode=login' ><AiOutlineLogout />Logout</Link>
                         </li>
                         }
+                        { (user)&&  <li className="nav-item">
+                        <Link className="nav-link" to="/profile/mysubgreddits"><AiOutlineUnorderedList/>My SubGreddits</Link>
+                    </li>}
 
                         {(user) && <li className="nav-item">
-                            <Link className="nav-link" to="/allsubgreddits"><AiOutlineUnorderedList />My SubGreddits</Link>
+                            <Link className="nav-link" to="/allsubgreddits"><AiOutlineUnorderedList />All SubGreddits</Link>
                         </li>}
                         {(user) && <li className="nav-item">
                             <Link className="nav-link" onClick={GTfollowers}><AiOutlineUnorderedList />Club Followers</Link>

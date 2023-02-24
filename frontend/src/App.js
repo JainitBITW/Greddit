@@ -17,6 +17,7 @@ import SGFollowers from './components/SGfollowers/SGFollowers';
 import Pending from './components/Pending/Pending';
 import Report from './components/report/Report';
 import Reports from './components/Reports/Reports';
+import SavedPosts from './components/savedposts/SavedPosts';
 function Auth() {
 
   const location = useLocation();
@@ -59,12 +60,14 @@ function App() {
           <Route exact path="/profile/followers" element={<Followers></Followers>}></Route>
           <Route exact path="/profile/following" element={<Following></Following>}></Route>
           <Route exact path="/profile/mysubgreddits" element={<MySubgreddits></MySubgreddits>}></Route>
-          <Route exact path="/subgreddit/:subgredditname" element={<SubGredditPage></SubGredditPage>}></Route>
+          <Route exact path="/subgreddit/:subgreddit" element={<SubGredditPage></SubGredditPage>}></Route>
           <Route exact path="/allsubgreddits" element={<AllSubgreddits></AllSubgreddits>}></Route>
           <Route exact path="/followers/:subgreddit"  element={<SGFollowers></SGFollowers>}></Route>
           <Route exact path="/pending/:subgreddit"  element={<Pending></Pending>}></Route>
           <Route exact path="/report/:subgreddit/:id"  element={<Report></Report>}></Route>
           <Route exact path="/reports/:subgreddit" element={<Reports></Reports>}></Route>
+          <Route exact path="/savedposts" element={<SavedPosts></SavedPosts>}></Route>
+
         </Routes>
       </div>
 

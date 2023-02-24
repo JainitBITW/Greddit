@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import jwt from 'jwt-decode'
 import { useNavigate ,Navigate,Link} from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import NavBar2 from '../NavBar/NavBar2';
 export default function SGFollowers() {
 
   const params = useParams();
@@ -105,6 +106,7 @@ toast.error(data.error)
 
   return (
     <div>
+      <NavBar2></NavBar2>
          <ToastContainer
             position="top-right"
             autoClose={1000}
@@ -133,10 +135,10 @@ toast.error(data.error)
    { <div>{followers && followers.map((follow) => (
       <div key={follow._id}>
          {(follow.blocked)&&  <div className="card-body my-3 mx-5 card container">
-              <h5 className="card-title">{follow.username}</h5>
+              <h5 className="card-title">{follow.username}  is Blocked</h5>
               <div>
-            {(!follow.blocked&& (follow.username!=creator) )&&  <button  onClick={BlockFollower} id = {follow.username} className="btn btn-success">Block Follower</button>}
-            {(follow.blocked&& (follow.username!=creator) )&&  <button  onClick={UnlockFollower} id = {follow.username} className="btn btn-danger">UnBlock Follower</button>}
+            {(!follow.blocked&& (follow.username!=creator) )&& (jwt(localStorage.getItem('token')).username==creator) && <button  onClick={BlockFollower} id = {follow.username} className="btn btn-success">Block Follower</button>}
+            {(follow.blocked&& (follow.username!=creator) )&& (jwt(localStorage.getItem('token')).username==creator) && <button  onClick={UnlockFollower} id = {follow.username} className="btn btn-danger">UnBlock Follower</button>}
               </div>
           </div>}
       </div>))}
