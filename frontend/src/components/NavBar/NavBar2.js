@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react';
-import { AiOutlineProfile, AiOutlineLogout, AiOutlineLogin, AiOutlineUnorderedList } from 'react-icons/ai';
+import { AiOutlineProfile,AiFillBook, AiOutlineLogout, AiOutlineLogin, AiOutlineUnorderedList } from 'react-icons/ai';
 import { SiGnuprivacyguard } from 'react-icons/si'
 import { ToastContainer, toast } from 'react-toastify';
 import jwt from 'jwt-decode'
@@ -123,6 +123,9 @@ const NavBar2 = () => {
                             <Link className="nav-link" onClick={GTReports} ><AiOutlineUnorderedList />Reports</Link>
                         </li>
                         }
+                         { (user)&&  <li className="nav-item">
+                            <Link className="nav-link" to="/savedposts"><AiFillBook/>All Saved Posts </Link>
+                        </li>}
 
 
                     </ul>

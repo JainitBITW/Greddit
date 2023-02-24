@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link ,useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react';
-import { AiOutlineProfile,AiOutlineLogout,AiOutlineLogin,AiOutlineUnorderedList } from 'react-icons/ai';
+import { AiOutlineProfile,AiFillBook,AiOutlineLogout,AiOutlineLogin,AiOutlineUnorderedList } from 'react-icons/ai';
 import{SiGnuprivacyguard} from 'react-icons/si'
 const NavBar = () => {
     const [user, setuser] = useState(false)
@@ -66,6 +66,9 @@ const NavBar = () => {
                         </li>}
                         { (!user)&&  <li className="nav-item">
                             <Link className="nav-link" to="/allsubgreddits"><AiOutlineUnorderedList/>All SubGreddits</Link>
+                        </li>}
+                        { (!user)&&  <li className="nav-item">
+                            <Link className="nav-link" to="/savedposts"><AiFillBook/>All Saved Posts </Link>
                         </li>}
                         
                     </ul>
