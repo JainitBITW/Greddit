@@ -191,9 +191,38 @@ const SubGredditPage = () => {
       Username: user,
     })
 
-   
+    let bannedKeywords = subGredditPage.subGredditBannedWords
+    let title = postTitle
+    let content = postBody
+    console.log(bannedKeywords, title, content)
 
+    for (let i = 0; i < bannedKeywords.length; i++) {
+      let regEx = new RegExp(bannedKeywords[i].bannedWord, "ig");
+      if (title.match(regEx)) {
+        // console.log("title contains banned keyword : " + bannedKeywords[i]);
+        toast.error("Title contains banned keyword");
+          
+      }
+      if (content.match(regEx)) {
+        // console.log("description contains banned keyword : " + bannedKeywords[i]);
+        toast.error("Description contains banned keywords", {
 
+        });
+        toast.error("The banned keywords will be replaced by asterisks", {
+
+        });
+
+        // replace the banned keywords with asterisks
+        let replacement = "";
+        for (let j = 0; j < bannedKeywords[i].bannedWord.length; j++) {
+          replacement += "*";
+        }
+        title = title.replace(regEx, replacement);
+        content = content.replace(regEx, replacement);
+        console.log(content + " (after replacemen")
+       
+      }
+    }
 
     let res = await fetch('http://localhost:4000/api/makepost', {
       method: 'POST',
@@ -202,8 +231,8 @@ const SubGredditPage = () => {
       },
       body: JSON.stringify({
         subGredditName: params.subgreddit,
-        postTitle: postTitle,
-        postBody: postBody,
+        postTitle: title,
+        postBody: content,
         Username: username
       })
     })
