@@ -1,4 +1,3 @@
-
 FROM node:16 as build-stage
 
 COPY package*.json ./
