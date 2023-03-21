@@ -26,7 +26,7 @@ router.post('/removefollower', RemoveFollower);
 router.post('/createsubgreddit', CreateSubGreddit);
 router.post('/getmysubgreddits', GetMySubgreddits);
 router.post('/getsubgredditpage', GetSubGreddit);
-router.post('/deletesubgsavedposts  reddit', DeleteSubGreddit);
+router.post('/deletesubgreddit', DeleteSubGreddit);
 router.post('/allsubgreddits', ShowAllSubGreddits);
 router.post('/followsubgreddit', FollowSubGreddit);
 router.post('/sg/getfollowers', GetFollowersSG);

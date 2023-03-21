@@ -24,7 +24,7 @@ const CreateSubGreddit = async (e) => {
     var token = localStorage.getItem('token')
    var  subGredditCreator = jwt(token).username
   //  var subGredditCreatorId = jwt(token).id
-    const res = await fetch('http://localhost:4000/createsubgreddit', {
+    const res = await fetch('http://localhost:4000/api/createsubgreddit', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ const GetSubgreddits =async()=>
 {
   var token = localStorage.getItem('token')
    var  subGredditCreator = jwt(token).username
-  const res = await fetch('http://localhost:4000/getmysubgreddits', {
+  const res = await fetch('http://localhost:4000/api/getmysubgreddits', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
